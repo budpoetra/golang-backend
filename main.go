@@ -16,9 +16,9 @@ type Response struct {
 func loggerMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
-		
+
 		next(w, r)
-		
+
 		log.Printf(
 			"Method: %s | Path: %s | Duration: %v",
 			r.Method,
@@ -41,16 +41,20 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w.Encode(res))
+
+	err := json.NewEncoder(w).Encode(res)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 func main() {
-	// Routing
 	http.HandleFunc("/", loggerMiddleware(handleIndex))
 
 	port := ":8080"
 	log.Printf("Server berjalan di http://localhost%s", port)
-	
+
 	err := http.ListenAndServe(port, nil)
 	if err != nil {
 		log.Fatalf("Gagal menjalankan server: %v", err)
