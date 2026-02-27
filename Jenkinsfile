@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        go 'Go-1.4'
+        go 'Go-1.26.0'
     }
     
     triggers {
