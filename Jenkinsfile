@@ -23,12 +23,12 @@ pipeline {
             }
         }
         
-        // stage('Build & Test') {
-        //     steps {
-        //         sh 'go mod tidy'
-        //         sh 'go test ./...'
-        //         sh "go build -o ${APP_NAME}"
-        //     }
-        // }
+        stage('Build & Test') {
+            steps {
+                sh 'go mod tidy'
+                sh 'go test ./...'
+                sh "go build -o ${APP_NAME}"
+            }
+        }
     }
 }
