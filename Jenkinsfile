@@ -1,17 +1,26 @@
 pipeline {
     agent any
-
-    tools {
-        go 'Go-1.26.0'
-    }
     
     triggers {
         pollSCM('* * * * *')
     }
 
+    tools {
+        go 'Go-1.26.0'
+    }
+
     environment {
         APP_NAME = "golang-backend"
         GO_VERSION = "1.21"
+    }
+
+    options {
+        buildDiscarder(logRotator(
+            numToKeepStr: '10',
+            daysToKeepStr: '30',
+            artifactNumToKeepStr: '5',
+            artifactDaysToKeepStr: '15'
+        ))
     }
 
     stages {
