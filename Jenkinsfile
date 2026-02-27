@@ -1,5 +1,9 @@
 pipeline {
     agent any
+
+    tools {
+        go 'Go-1.4'
+    }
     
     triggers {
         pollSCM('* * * * *')
